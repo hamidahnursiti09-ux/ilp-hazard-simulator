@@ -50,13 +50,9 @@ sehingga dapat dihilangkan dengan **register renaming**.
 
 ```bash
 pip install -r requirements.txt
-python main.py
-```
-
-Membuat ulang dependency graph (folder `output/`) dan PDF laporan (folder `laporan/`):
-
-```bash
-python laporan/buat_laporan.py
+python main.py            # simulasi WAW + register renaming
+python simulasi_semua.py  # simulasi RAW, WAR, WAW + dependency graph RAW dan WAR
+python hazard_raw.py      # uji cepat deteksi RAW
 ```
 
 ## Hasil bagian WAW
