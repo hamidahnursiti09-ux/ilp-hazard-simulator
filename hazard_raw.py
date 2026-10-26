@@ -24,3 +24,16 @@ def detect_raw(instructions):
             if is_raw(producer, consumer) and no_write_between(instructions, i, j, reg):
                 deps.append(Dependency(producer, consumer, "RAW", reg))
     return deps
+
+if __name__ == "__main__":
+    # Uji cepat modul RAW: python hazard_raw.py
+    from instruction import Instruction as I
+    contoh = [
+        I("I1", "R1", ["R2", "R3"]),
+        I("I2", "R4", ["R1", "R5"]),
+        I("I3", "R6", ["R4", "R7"]),
+    ]
+    for d in detect_raw(contoh):
+        print(d)
+
+
