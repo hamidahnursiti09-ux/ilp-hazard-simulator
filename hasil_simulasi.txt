@@ -1,0 +1,94 @@
+
+************************************************************
+   ILP SIMULATOR - IMPLEMENTASI WAW (Write After Write)
+************************************************************
+
+Instruction Set:
+I1: R1 = R2 + R3
+I2: R4 = R5 + R6
+I3: R1 = R7 + R8
+I4: R9 = R10 + R11
+I5: R4 = R12 + R13
+I6: R14 = R1 + R4
+
+=======================================================
+DEPENDENCY ANALYSIS (RAW + WAW)
+=======================================================
+I3 bergantung pada I1  [WAW]  (register R1)
+I5 bergantung pada I2  [WAW]  (register R4)
+I6 bergantung pada I3  [RAW]  (register R1)
+I6 bergantung pada I5  [RAW]  (register R4)
+
+=======================================================
+DETEKSI HAZARD WAW (jika simulator hanya cek RAW)
+=======================================================
+[HAZARD] Cycle 1: I1 dan I3 sama-sama menulis R1 -> urutan penulisan tidak terjamin!
+[HAZARD] Cycle 1: I2 dan I5 sama-sama menulis R4 -> urutan penulisan tidak terjamin!
+Penulis akhir yang benar: {'R1': 'I3', 'R4': 'I5', 'R9': 'I4', 'R14': 'I6'}
+
+=======================================================
+SEQUENTIAL EXECUTION
+=======================================================
+Cycle 1: I1 (R1 = R2 + R3)
+Cycle 2: I2 (R4 = R5 + R6)
+Cycle 3: I3 (R1 = R7 + R8)
+Cycle 4: I4 (R9 = R10 + R11)
+Cycle 5: I5 (R4 = R12 + R13)
+Cycle 6: I6 (R14 = R1 + R4)
+
+Total Sequential Cycles: 6
+
+=======================================================
+ILP EXECUTION - DENGAN PENANGANAN WAW (stall)
+=======================================================
+
+Cycle 1:
+  -> I1: R1 = R2 + R3
+  -> I2: R4 = R5 + R6
+  -> I4: R9 = R10 + R11
+
+Cycle 2:
+  -> I3: R1 = R7 + R8
+  -> I5: R4 = R12 + R13
+
+Cycle 3:
+  -> I6: R14 = R1 + R4
+
+Total Cycles: 3
+
+Setelah Register Renaming:
+I1: R1_1 = R2 + R3
+I2: R4_1 = R5 + R6
+I3: R1_2 = R7 + R8
+I4: R9_1 = R10 + R11
+I5: R4_2 = R12 + R13
+I6: R14_1 = R1_2 + R4_2
+
+=======================================================
+DEPENDENCY ANALYSIS SETELAH RENAMING (WAW hilang)
+=======================================================
+I6 bergantung pada I3  [RAW]  (register R1_2)
+I6 bergantung pada I5  [RAW]  (register R4_2)
+
+=======================================================
+ILP EXECUTION - SETELAH REGISTER RENAMING
+=======================================================
+
+Cycle 1:
+  -> I1: R1_1 = R2 + R3
+  -> I2: R4_1 = R5 + R6
+  -> I3: R1_2 = R7 + R8
+  -> I4: R9_1 = R10 + R11
+  -> I5: R4_2 = R12 + R13
+
+Cycle 2:
+  -> I6: R14_1 = R1_2 + R4_2
+
+Total Cycles: 2
+
+=======================================================
+PERFORMANCE COMPARISON
+=======================================================
+Sequential              : 6 cycle
+ILP + WAW stall         : 3 cycle  (speedup 2.00x)
+ILP + Register Renaming : 2 cycle  (speedup 3.00x)
