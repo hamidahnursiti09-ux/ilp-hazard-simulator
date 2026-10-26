@@ -42,8 +42,10 @@ sehingga dapat dihilangkan dengan **register renaming**.
 | `programs.py` | Program contoh RAW, WAR, dan WAW |
 | `main.py` | Program utama simulasi WAW |
 | `ILP_Hazard_Simulator.ipynb` | Notebook (Google Colab) bagian WAW |
-| `output/` | Dependency graph RAW, WAR, WAW (PNG) dan hasil simulasi (`hasil_simulasi.txt` = WAW dari `main.py`, `hasil_simulasi_semua.txt` = RAW, WAR, WAW) |
-| `laporan/` | laporan RAW, WAR, WAW dalam PDF dan Word (`Jawaban_RAW_WAR_WAW_ILP.pdf` / `.docx`) dan skrip pembuatnya (`buat_laporan.py`) |
+| `simulasi_semua.py` | Menjalankan simulasi RAW, WAR, WAW dan membuat dependency graph RAW dan WAR |
+| `graph_*.png`, `dependency_graph_waw*.png` | Dependency graph RAW, WAR, WAW (sebelum dan sesudah register renaming) |
+| `hasil_simulasi.txt`, `hasil_simulasi_semua.txt` | Hasil simulasi WAW (`main.py`) dan RAW, WAR, WAW (`simulasi_semua.py`) |
+| `Laporan_RAW_WAR_WAW_ .pdf` | Laporan tugas (dependency graph dan link GitHub) |
 | `requirements.txt` | Library yang dibutuhkan |
 
 ## Cara menjalankan
